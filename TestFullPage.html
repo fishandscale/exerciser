@@ -9,19 +9,62 @@ https://github.com/alvarotrigo/fullPage.js#fullpagejs
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.7.4/jquery.fullPage.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.7.4/jquery.fullPage.css" />
+<link rel="stylesheet" type="text/css" href="myStyle.css"/>
 </head>
 <body>
 <script>
 $(document).ready( function (){
 	 $('#fullpage').fullpage();	
+	 
 }); 
 		
+/*
+ * 
+ */
+function modify_vorlauf(wert){
+	if ( isNaN(wert)  || wert === undefined ){
+		wert = 0;
+	}
+	var aktueller_wert = $("#vorlauf").val();
+	if (isNaN(aktueller_wert) || aktueller_wert === undefined || aktueller_wert == ""){
+		aktueller_wert = 0;
+	}
+	var neuer_wert = parseInt(aktueller_wert,10) + wert;
+	if ( neuer_wert < 0 ){
+		neuer_wert = 0;
+	}
+	$("#vorlauf").val(neuer_wert);
+}
+/*
+ * 
+ */
+function start(){
+	$("#down").attr("disabled", "disabled");
+	$("#up").attr("disabled", "disabled");
+	
+}
+
+function stop(){
+	$("#down").removeAttr("disabled");
+	$("#up").removeAttr("disabled");
+}
 
 
 
 </script>
 <div id="fullpage">
-    <div class="section">Some section</div>
+    <div class="section">Some section
+    
+    	<div class="box">
+			<label for="vorlauf"><abbr title="Vorlauf">Vorlauf</abbr></label>
+			<input id="vorlauf" value="0" />
+			<button id="down" onclick="modify_vorlauf(-1)">-1</button>
+			<button id="up" onclick="modify_vorlauf(1)">+1</button>
+			<button id="start" onclick="start()">Start</button>	
+			<button id="stop" onclick="stop()">Stop</button>		
+		</div>
+		
+    </div>
     <div class="section">Some section</div>
     <div class="section">Some section</div>
     <div class="section">Some section</div>
