@@ -13,6 +13,8 @@ https://github.com/alvarotrigo/fullPage.js#fullpagejs
 </head>
 <body>
 <script>
+var timerId;
+
 $(document).ready( function (){
 	 $('#fullpage').fullpage();	
 	 
@@ -25,7 +27,7 @@ function modify_vorlauf(wert){
 	if ( isNaN(wert)  || wert === undefined ){
 		wert = 0;
 	}
-	var aktueller_wert = $("#vorlauf").val();
+	var aktueller_wert = $("#timer").val();
 	if (isNaN(aktueller_wert) || aktueller_wert === undefined || aktueller_wert == ""){
 		aktueller_wert = 0;
 	}
@@ -33,7 +35,7 @@ function modify_vorlauf(wert){
 	if ( neuer_wert < 0 ){
 		neuer_wert = 0;
 	}
-	$("#vorlauf").val(neuer_wert);
+	$("#timer").val(neuer_wert);
 }
 /*
  * 
@@ -41,12 +43,74 @@ function modify_vorlauf(wert){
 function start(){
 	$("#down").attr("disabled", "disabled");
 	$("#up").attr("disabled", "disabled");
+	var aktueller_wert = $("#timer").val();
+	if (isNaN(aktueller_wert) || aktueller_wert === undefined || aktueller_wert == ""){
+		aktueller_wert = 0;
+	}
+	countdown2(0,0,aktueller_wert,0,'cID4');
 	
 }
 
 function stop(){
 	$("#down").removeAttr("disabled");
 	$("#up").removeAttr("disabled");
+	$("#start").text("continue");
+	clearTimeout(timerId);
+}
+
+ 
+function countdown(time,id){
+ 
+  //time brauchen wir später noch
+  t = time;
+ 
+  //Tage berechnen
+  d = Math.floor(t/(60*60*24)) % 24; 
+ 
+  // Stunden berechnen
+  h = Math.floor(t/(60*60)) % 24;
+ 
+ 
+  // Minuten berechnen
+  // Sekunden durch 60 ergibt Minuten
+  // Minuten gehen von 0-59
+  //also Modulo 60 rechnen
+  m = Math.floor(t/60) %60;
+ 
+  // Sekunden berechnen
+  s = t %60;
+ 
+  //Zeiten formatieren
+  d = (d >  0) ? d+"d ":"";
+  h = (h < 10) ? "0"+h : h;
+  m = (m < 10) ? "0"+m : m;
+  s = (s < 10) ? "0"+s : s;
+ 
+  // Ausgabestring generieren
+  strZeit =d + h + ":" + m + ":" + s;
+ 
+  // Falls der Countdown noch nicht zurückgezählt ist
+  if(time > 0)
+  {
+    //Countdown-Funktion erneut aufrufen
+    //diesmal mit einer Sekunde weniger
+    timerId = window.setTimeout('countdown('+ --time+',\''+id+'\')',1000);
+  }
+  else
+  {
+    //führe eine funktion aus oder refresh die seite
+    //dieser Teil hier wird genau einmal ausgeführt und zwar 
+    //wenn die Zeit um ist.
+    strZeit = "Fertig";
+  }
+  // Ausgabestring in Tag mit id="id" schreiben
+  document.getElementById(id).innerHTML = strZeit;
+}
+//Helfer Funktion erlaubt Counter auch ohne Timestamp
+//countdown2(Tage,Stunden,Minuten,Sekunden,ID)
+function countdown2(d,h,m,s,id)
+{
+  countdown(d*60*60*24+h*60*60+m*60+s,id);
 }
 
 
@@ -54,10 +118,10 @@ function stop(){
 </script>
 <div id="fullpage">
     <div class="section">Some section
-    
+    <div id="cID4"> </div>
     	<div class="box">
-			<label for="vorlauf"><abbr title="Vorlauf">Vorlauf</abbr></label>
-			<input id="vorlauf" value="0" />
+			<label for="timer"><abbr title="Timer">Timer</abbr></label>
+			<input id="timer" value="0" />
 			<button id="down" onclick="modify_vorlauf(-1)">-1</button>
 			<button id="up" onclick="modify_vorlauf(1)">+1</button>
 			<button id="start" onclick="start()">Start</button>	
