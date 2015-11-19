@@ -1,0 +1,46 @@
+
+<html ng-app="tutorialApp">
+<head>
+<meta charset="utf8" />
+<title>AngularJS Tutorial</title>
+<link rel="stylesheet"
+	href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="style.css">
+	
+</head>
+<body ng-init="articles = ['Pizza Margherita', 'Pizza Tonno']">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
+	<script src="app.js"></script>
+	
+	
+	<input type="text" ng-model="search">
+	<p>Du suchst gerade nach: {{search}} und nach {{search.toUpperCase() + "!"}} oder {{1 + 2 + 3}}</p>
+	<p ng-show="search">Ja jetzt kommt es: {{search}}</p>
+	
+	<table class="table" ng-controller="ArticlesCtrl">
+  		<tr class="cart-item" ng-repeat="article in articles | filter:search">
+    		<td>{{article.id}}</td>
+    		<td>{{article.name}}</td>
+    		<td>{{article.price}}</td>
+    		<td><a href class="btn btn-default btn-sm" ng-click="cart.addArticle(article);">Hinzufügen</a></td>
+  		</tr>
+	</table>
+	<div ng-controller="CartCtrl">
+	<div ng-hide="cart.getItems().length" class="alert alert-warning">Ihr Warenkorb ist noch leer.</div>
+  		<table ng-show="cart.getItems().length" class="table">
+    	<tr class="cart-item" ng-repeat="item in cart.getItems() track by $index">
+      		<td>{{item.name}}</td>
+      		<td>{{item.price | currency}}</td>
+    	</tr>
+    	<tr>
+      		<td>{{cart.getItems().length}} Artikel</td>
+      		<td>{{cart.sum() | currency}}</td>
+      		<td></td>
+    	</tr>
+  		</table>
+	</div>
+</body>
+</html>

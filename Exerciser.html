@@ -3,15 +3,19 @@
 <head>
 <!--
 https://github.com/alvarotrigo/fullPage.js#fullpagejs
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
 -->
 <meta charset="utf-8">
 <title>Exerciser</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.7.4/jquery.fullPage.js"></script>
 <script type="text/javascript" src="exerciser.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.7.4/jquery.fullPage.css" />
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
 <!-- <link rel="stylesheet" type="text/css" href="timer.css"/> -->
 </head>
 <body>
@@ -27,7 +31,7 @@ $(document).ready( function (){
 	// Startet Plugin Fullage
 	$('#fullpage').fullpage();
 	// Initialisiert Timer
-	timer = Timer($('#timer'),$("#up"),$("#down"),$("#cID4"));		
+	timer = Timer($('#timer'),$("#up"),$("#down"),$("#cID4"),$("#start"));		
 }); 
 
 
@@ -35,31 +39,14 @@ $(document).ready( function (){
 </script>
 <div id="fullpage">
     <div class="section">
-    
-    <form>
-    	<label for="textinput-s">Timer:</label>
-    	<input type="text" name="textinput-s" id="textinput-s" placeholder="Text input" value="" data-clear-btn="true">
-<!--
-    <label for="select-native-s">Select:</label>
-    <select name="select-native-s" id="select-native-s">
-        <option value="small">One</option>
-        <option value="medium">Two</option>
-        <option value="large">Three</option>
-    </select>
--->
-    	<label for="slider-s">Minuten</label>
-    	<input type="range" name="slider-s" id="slider-s" value="3" min="1" max="100" data-highlight="true">
-		<button class="ui-btn ui-corner-all" onclick="timer.start()">Start</button>
-	</form>
 
 	<div id="cID4"></div>
     	<div class="box">
 			<label for="timer"><abbr title="Timer">Timer</abbr></label>
 			<input id="timer" value="0" />
-			<button id="down" onclick="timer.modify(-1)">-1</button>
-			<button id="up" onclick="timer.modify(1);">+1</button>
-			<button id="start" onclick="timer.start()">Start</button>	
-			<button id="stop" onclick="timer.stop()">Stop</button>		
+			<button id="down" class="btn" onclick="timer.modify(-1)">-1</button>
+			<button id="up" class="btn" onclick="timer.modify(1);">+1</button>
+			<button id="start" class="btn" onclick="timer.execute()">Start</button>	
 		</div>
 	
     </div>

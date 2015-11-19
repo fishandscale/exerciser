@@ -4,13 +4,14 @@
 "use strict";
 
 
-function Timer( counter_element, up_element, down_element, display_element) {
+function Timer( counter_element, up_element, down_element, display_element,start_element) {
 	var timerId;
 	var restMin = 0;
 	var counter_element = counter_element;
 	var up_element = up_element;
 	var down_element = down_element;
 	var display_element = display_element;
+	var start_element = start_element;
 	return {
 		
 		modify : function(min) {
@@ -27,28 +28,21 @@ function Timer( counter_element, up_element, down_element, display_element) {
 			}
 			$(counter_element).val(neuer_wert);
 		},
-		start : function(){
-			//down_element.attr("disabled", "disabled");
-			//up_element.attr("disabled", "disabled");
-			var aktueller_wert = counter_element.val();
-			if (isNaN(aktueller_wert) || aktueller_wert === undefined || aktueller_wert == ""){
-				aktueller_wert = 0;
-			}
-			// Prüfe, ob noch ein Timer läuft, wenn ja, dann beenden
-			if ( !(timerId === undefined)){
+		execute: function(){
+			if ( timerId === undefined ){ // Timer wird das erste Mal gestartet
+				start_element.text("Stop");
+				var aktueller_wert = counter_element.val();
+				if (isNaN(aktueller_wert) || aktueller_wert === undefined || aktueller_wert == ""){
+					aktueller_wert = 0;
+				}
+				countdown2(0,0,aktueller_wert,0);
+				
+			}else{// Timer wird angehalten
+				start_element.text("Start");
 				clearTimeout(timerId);
+				timerId = undefined;
 			}
-			
-			countdown2(0,0,aktueller_wert,0);
-		},
-		stop : function(){
-			//down_element.removeAttr("disabled");
-			//up_element.removeAttr("disabled");
-			//$("#start").text("continue");
-			clearTimeout(timerId);
-		}
-		
-		
+		}				
 	};
 	function countdown(time){
 		 
@@ -106,4 +100,6 @@ function Timer( counter_element, up_element, down_element, display_element) {
 		  countdown(d*60*60*24+h*60*60+m*60+s);
 	}
 }
+
+
 
